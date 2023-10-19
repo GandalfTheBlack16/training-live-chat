@@ -1,11 +1,13 @@
 import mongoose from 'mongoose'
 
-const uri = process.env.MONGO_URI ?? 'mongodb://127.0.0.1:27017/live-chat'
+const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017'
+const username = process.env.MONGO_USER ?? 'root'
+const password = process.env.MONGO_PWD ?? 'example'
 
 const connect = async (): Promise<void> => {
   await mongoose.connect(uri, {
-    connectTimeoutMS: 5000,
-    socketTimeoutMS: 5000
+    dbName: 'live-chat',
+    auth: { username, password }
   })
 }
 

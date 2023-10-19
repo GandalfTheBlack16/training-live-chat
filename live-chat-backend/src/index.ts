@@ -1,5 +1,5 @@
 import { connect as connectDatabase } from './database/dbConnection'
-import { initServer } from './server/httpServer'
+import { initServer } from './server/server'
 
 connectDatabase()
   .then(() => {
