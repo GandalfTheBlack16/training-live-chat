@@ -15,7 +15,7 @@ export async function CreateMessageHandler ({ author, message }: MessageEvent): 
 export async function DeleteMessageHandler ({ messageId }: { messageId: string }): Promise<void> {
   try {
     await deleteMessage(messageId)
-    io.emit('message-deleted', { _id: messageId })
+    io.emit('message-deleted', { id: messageId })
   } catch (error) {
     console.log('Error handling delete-message event', error)
     io.emit('status-event', { message: 'Error deleting the message', cause: error })

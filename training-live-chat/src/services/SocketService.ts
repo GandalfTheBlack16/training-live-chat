@@ -17,3 +17,7 @@ export function disconnect() {
 export function emitMessage (author: string, message: string) {
     socket.emit('create-message', { author, message })
 }
+
+export function emitDeleteMessage (messageId: string) {
+    socket.emit('delete-message', { messageId })
+}

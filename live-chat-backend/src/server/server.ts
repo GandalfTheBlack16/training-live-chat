@@ -1,22 +1,23 @@
 import express from 'express'
 import { createServer } from 'http'
-import { FetchMessages } from '../controllers/MessageController'
-import cors from 'cors'
 import { Server } from 'socket.io'
 import { CreateMessageHandler, DeleteMessageHandler } from '../handlers/MessageEventsHandler'
+import { MessageListProvider } from '../providers/MessageProvider'
 
 const port = process.env.PORT ?? 3000
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: '*',
     methods: ['GET', 'POST']
   }
 })
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log(`User ${socket.handshake.auth.user} has connected!`)
+
+  socket.emit('get-messages', await MessageListProvider())
 
   socket.on('disconnect', () => {
     console.log(`User ${socket.handshake.auth.user} has disconnected!`)
@@ -25,10 +26,6 @@ io.on('connection', (socket) => {
   socket.on('create-message', CreateMessageHandler)
   socket.on('delete-message', DeleteMessageHandler)
 })
-
-app.use(cors())
-
-app.get('/api/messages', FetchMessages)
 
 const initServer = (): void => {
   httpServer.listen(port, () => {

@@ -15,3 +15,10 @@ export interface MessageEvent {
   author: string
   message: string
 }
+
+export interface MessageOutboundEvent {
+  id: string
+  content: string
+  author: string
+  date: Date
+}
