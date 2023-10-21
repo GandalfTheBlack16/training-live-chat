@@ -2,8 +2,10 @@ import { Socket, io } from "socket.io-client";
 
 export let socket: Socket
 
+const SERVER_URI = import.meta.env.VITE_SERVER_URI ?? 'http://localhost:3000'
+
 export function connect(username: string) {
-    socket = io('http://localhost:3000', {
+    socket = io(SERVER_URI, {
         auth: {
             user: username
         }

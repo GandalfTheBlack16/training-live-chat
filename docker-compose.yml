@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  database:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  server:
+    build: ./live-chat-backend
+    environment:
+      - PORT=8080
+      - MONGO_URI=mongodb://database:27017/
+      - MONGO_USER=root
+      - MONGO_PWD=example
+    ports:
+      - 8080:8080
+  client:
+    build: ./training-live-chat
+    ports:
+      - 80:80
